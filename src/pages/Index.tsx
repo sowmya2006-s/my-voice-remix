@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Sparkles, Zap, Globe, Shield } from "lucide-react";
+import { Sparkles, Zap, Globe, Shield, HelpCircle } from "lucide-react";
 import { Header } from "@/components/Header";
 import { VoiceRecorder } from "@/components/VoiceRecorder";
 import { SongInput } from "@/components/SongInput";
@@ -7,6 +7,7 @@ import { ProcessingPipeline } from "@/components/ProcessingPipeline";
 import { ResultPlayer } from "@/components/ResultPlayer";
 import { ConsentDialog } from "@/components/ConsentDialog";
 import { BackendStatus } from "@/components/BackendStatus";
+import { SetupWizard } from "@/components/SetupWizard";
 import { Button } from "@/components/ui/button";
 import { useVoiceClone } from "@/hooks/useVoiceClone";
 import { toast } from "@/hooks/use-toast";
@@ -14,6 +15,7 @@ import { toast } from "@/hooks/use-toast";
 const Index = () => {
   const [showConsent, setShowConsent] = useState(true);
   const [hasConsented, setHasConsented] = useState(false);
+  const [showSetupWizard, setShowSetupWizard] = useState(false);
   const [apiUrl, setApiUrl] = useState("http://localhost:8000");
   const [isConnected, setIsConnected] = useState(false);
   
@@ -102,6 +104,17 @@ const Index = () => {
         onDecline={handleDecline}
       />
 
+      {showSetupWizard && (
+        <SetupWizard
+          apiUrl={apiUrl}
+          onClose={() => setShowSetupWizard(false)}
+          onComplete={() => {
+            setShowSetupWizard(false);
+            setIsConnected(true);
+          }}
+        />
+      )}
+
       <Header />
 
       <main className="relative z-10 container mx-auto px-4 py-8">
@@ -138,12 +151,25 @@ const Index = () => {
           </div>
 
           {/* Backend Status */}
-          <BackendStatus
-            apiUrl={apiUrl}
-            setApiUrl={setApiUrl}
-            isConnected={isConnected}
-            setIsConnected={setIsConnected}
-          />
+          <div className="flex flex-col items-center gap-3">
+            <BackendStatus
+              apiUrl={apiUrl}
+              setApiUrl={setApiUrl}
+              isConnected={isConnected}
+              setIsConnected={setIsConnected}
+            />
+            {!isConnected && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowSetupWizard(true)}
+                className="gap-2"
+              >
+                <HelpCircle className="w-4 h-4" />
+                Setup Guide
+              </Button>
+            )}
+          </div>
         </section>
 
         {/* Main Content */}
