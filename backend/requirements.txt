@@ -1,0 +1,33 @@
+# Voice Clone Backend - Python Requirements
+# Install with: pip install -r requirements.txt
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+
+# Audio Processing
+pydub==0.25.1
+librosa==0.10.1
+soundfile==0.12.1
+numpy==1.26.3
+
+# ML/AI
+torch>=2.1.0
+torchaudio>=2.1.0
+
+# Audio Separation
+demucs==4.0.1
+
+# YouTube Download
+yt-dlp==2024.1.1
+
+# RVC (install separately - see README)
+# fairseq
+# praat-parselmouth
+# pyworld
+# faiss-cpu
+
+# Utilities
+requests==2.31.0
+aiofiles==23.2.1
